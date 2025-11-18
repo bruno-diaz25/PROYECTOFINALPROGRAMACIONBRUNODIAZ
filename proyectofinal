@@ -1,0 +1,481 @@
+
+package juego;
+
+
+import java.util.Scanner;
+import java.util.Random;
+import java.awt.Image;
+import javax.swing.*;
+
+public class Juego {
+    
+    public static void mostrarMensajeConIcono(String rutaImg, int ancho, int alto, String mensaje) {
+        // Cargar la imagen desde la ruta proporcionada
+        ImageIcon originalIcon = new ImageIcon(Juego.class.getResource(rutaImg));
+
+        // Obtener la imagen original y redimensionarla
+        Image imagenOriginal = originalIcon.getImage();
+        Image imagenRedimensionada = imagenOriginal.getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+
+        // Crear el ImageIcon con la imagen redimensionada
+        ImageIcon iconoRedimensionado = new ImageIcon(imagenRedimensionada);
+
+        // Mostrar el JOptionPane con el icono redimensionado y el mensaje
+        JOptionPane.showMessageDialog(null, mensaje, "Información", JOptionPane.INFORMATION_MESSAGE, iconoRedimensionado);
+    }
+
+
+    String debilidad = "";
+    String fortaleza = "";
+
+    String[] suministros = {
+            "Altavoz super ruidoso", "Foco ultrabrillante", "P.E.M. (Pulso Electro Magnetico)", "Bomba de agua bendita", "Aceite inflamable",
+            "Cuerda con gancho", "Botiquin", "Antena Filosa", "Bengala"
+    };
+
+    public void suministroRandom() {
+        Random aleatorio = new Random();
+        int numero = aleatorio.nextInt(suministros.length);
+        debilidad = suministros[numero];
+        do {
+            numero = aleatorio.nextInt(suministros.length);
+            fortaleza = suministros[numero];
+        } while (fortaleza.equals(debilidad));
+    
+    }
+
+    public static void main(String[] args) {
+
+        int energia = 100;
+        String[] mochila = new String[4];
+        Scanner tec = new Scanner(System.in);
+        Random aleatoriox = new Random();
+        int danoRecibido = aleatoriox.nextInt(10, 20);
+        Juego j = new Juego();
+        
+ // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/1.jpg", 
+    300, 
+    300, 
+    "Una combinacion mortal de criaturas acecha la tierra.\n El mundo ha caido en el caos y la supervivencia es lo unico que importa.\nDebes llegar a un refugio seguro antes de que sea demasiado tarde.\nPrimero, ves un puesto de vigilancia abandonado, puede servirte para reunir suministros."
+);
+        
+        // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/2.jpg", 
+    300, 
+    300, 
+    "Primero, ves un puesto de vigilancia abandonado, puede servirte para reunir suministros."
+);
+
+        System.out.println("Encuentras el puesto de vigilancia. Las puertas estan abiertas.");
+        System.out.println("Dentro hay una sala de suministros con equipo disperso.");
+        System.out.println("Solo puedes cargar 4 suministros en tu mochila. Elige con cuidado.");
+        System.out.println("Algunos de estos suministros podrian ser cruciales para enfrentar a las criaturas.");
+        System.out.println();
+        System.out.println("Suministros disponibles:");
+        
+        
+        for (int i = 0; i < j.suministros.length; i++) {
+            System.out.println((i + 1) + ". " + j.suministros[i]);
+        }
+        System.out.println("_____________________________________________________");
+        System.out.println("Selecciona 4 suministros para tu mochila (entre 1 y 9):");
+        
+        for (int i = 0; i < mochila.length; i++) {
+            System.out.println("Selecciona el suministro " + (i + 1) + " (entre 1 y 9): ");
+            int eleccion = tec.nextInt();
+            
+            
+            if (eleccion < 1 || eleccion > j.suministros.length) {
+                System.out.println("Opcion invalida, elige un número entre 1 y " + j.suministros.length);
+                i--;
+                continue;
+            }
+            
+            
+            mochila[i] = j.suministros[eleccion - 1];
+
+            
+            if (i > 0 && i < mochila.length) {
+                for (int m = 0; m < i; m++) {
+                    if (mochila[i].equals(mochila[m])) {
+                        System.out.println("Ya has seleccionado este suministro, elige otro.");
+                        i--;
+                        break;
+                    }
+                }
+            }
+        }
+
+        System.out.println();
+        System.out.println("Mochila completa. Has reunido:");
+        for (int i = 0; i < mochila.length; i++) {
+            System.out.println((i+1) + "- " + mochila[i]);
+        }
+        
+               // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/3.jpg", 
+    300, 
+    300, 
+    "Sales del puesto de vigilancia. El mundo esta en ruinas a tu alrededor y ves 3 refugios a la distancia."
+);
+
+        System.out.println("Ahora debes elegir un refugio para protegerte:");
+        System.out.println("1. GRANJA ABANDONADA");
+        System.out.println("2. SUPERMERCADO FEDERAL");
+        System.out.println("3. BUNKER SKYNET");
+        int refugio = tec.nextInt();
+
+        while (refugio < 1 || refugio > 3) {
+            System.out.println("Opcion invalida, elige un numero entre 1 y 3");
+            refugio = tec.nextInt();
+        }
+        
+        String nombreRefugio = "";
+        String nombreEnemigo = "";
+        
+        switch (refugio) {
+
+            case 1:
+                nombreRefugio = "Granja Abandonada";
+                nombreEnemigo = "Acechador Silente";
+                               // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/4.jpg", 
+    300, 
+    300, 
+    "Has elegido la GRANJA ABANDONADA.\n El lugar esta infestado! Un Acechador Silente emerge de las sombras.\n La criatura usa ecolocalizacion para cazarte."
+);
+                System.out.println("Tu energia es de: " + energia + " puntos.");
+                System.out.println("Su ataque sorpresa te ha costado " + danoRecibido + " puntos de energia.");
+                energia -= danoRecibido;
+                danoRecibido = aleatoriox.nextInt(10, 20);
+
+                System.out.println("El Acechador tiene debilidades. Uno de tus suministros podria ser efectivo.");
+                
+                j.debilidad = "Altavoz super ruidoso";
+                j.fortaleza = "Bomba de agua bendita";
+                
+                for (int ronda = 1; ronda <= 3; ronda++) {
+                    int movimientoElegido = 0;
+                    System.out.println("Ronda " + ronda + ": escribe 1 para atacar o 2 para defenderte:");
+                    System.out.println("_____________________________________________________");
+                    System.out.println("Tu energia es de: " + energia + " puntos.");
+                    System.out.println("_____________________________________________________");
+                    movimientoElegido = tec.nextInt();
+
+                    while (movimientoElegido < 1 || movimientoElegido > 2) {
+                        System.out.println("Opcion invalida, escribe 1 para atacar o 2 para defenderte:");
+                        movimientoElegido = tec.nextInt();
+                    }    
+                    
+                    if (movimientoElegido == 2) {
+                        System.out.println("Te escondes y el Acechador pierde tu rastro temporalmente.");
+                        System.out.println("Pierdes " + danoRecibido + " puntos de energia.");
+                    energia -= danoRecibido;
+                    danoRecibido = aleatoriox.nextInt(10, 20);
+                    } else {
+                        System.out.println("Ronda " + ronda + ": Elige un suministro de tu mochila para atacar:");
+
+                        for (int i = 0; i < mochila.length; i++) {
+                            System.out.println((i+1) + "- " + mochila[i]);
+                        }
+                        int suministroElegido = tec.nextInt()-1;
+                        
+                        if (suministroElegido < 0 || suministroElegido >= mochila.length) {
+                            System.out.println("Opcion invalida, elige un numero entre 1 y " + mochila.length);
+                            continue;
+                        }
+
+                        String suministroElegidox = mochila[suministroElegido];
+                        if (suministroElegidox.equals(j.debilidad)) {
+                            System.out.println("Has usado " + suministroElegidox + " y fue super efectivo! Sales ileso de esta ronda.");
+                        } else if (suministroElegidox.equals(j.fortaleza)) { 
+                            System.out.println("Has usado " + suministroElegidox + " pero el Acechador es resistente a eso.");
+                            System.out.println("Contraataca ferozmente.");
+                        energia -= danoRecibido;
+                        danoRecibido = aleatoriox.nextInt(10, 20);
+                        } else {
+                            System.out.println("Has usado " + suministroElegidox + " pero no es muy efectivo.");
+                        energia -= danoRecibido;
+                        danoRecibido = aleatoriox.nextInt(10, 20);
+                        }
+                    }
+                }
+                break;
+
+            case 2:
+                nombreRefugio = "Supermercado Federal";
+                nombreEnemigo = "Bestia Brumosa";
+                
+                               // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/5.jpg", 
+    300, 
+    300, 
+    "Has elegido el SUPERMERCADO FEDERAL.\n Una Bestia Brumosa acecha entre los pasillos!\n La criatura se oculta en una niebla toxica."
+);
+                System.out.println("Tu energia es de: " + energia + " puntos.");
+                System.out.println("Su ataque sorpresa te ha costado " + danoRecibido + " puntos de energia.");
+                energia -= danoRecibido;
+                danoRecibido = aleatoriox.nextInt(10, 20);
+
+                System.out.println("La Bestia Brumosa tiene debilidades. Elige tus suministros con sabiduria.");
+                
+                j.debilidad = "Foco ultrabrillante";
+                j.fortaleza = "Aceite inflamable";
+                
+                for (int ronda = 1; ronda <= 3; ronda++) {
+                    int movimientoElegido = 0;
+                    System.out.println("Ronda " + ronda + ": escribe 1 para atacar o 2 para defenderte:");
+                    System.out.println("_____________________________________________________");
+                    System.out.println("Tu energia es de: " + energia + " puntos.");
+                    System.out.println("_____________________________________________________");
+                    movimientoElegido = tec.nextInt();
+
+                    while (movimientoElegido < 1 || movimientoElegido > 2) {
+                        System.out.println("Opcion invalida, escribe 1 para atacar o 2 para defenderte:");
+                        movimientoElegido = tec.nextInt();
+                    }           
+                    
+                    if (movimientoElegido == 2) {
+                        System.out.println("Te cubres de la niebla toxica.");
+                        System.out.println("Pierdes " + danoRecibido + " puntos de energia.");
+                        energia -= danoRecibido;
+                        danoRecibido = aleatoriox.nextInt(10, 20);
+                    } else {
+                        System.out.println("Ronda " + ronda + ": Elige un suministro de tu mochila para atacar:");
+
+                        for (int i = 0; i < mochila.length; i++) {
+                            System.out.println((i+1) + "- " + mochila[i]);
+                        }
+                        int suministroElegido = tec.nextInt()-1;
+                        
+                        if (suministroElegido < 0 || suministroElegido >= mochila.length) {
+                            System.out.println("Opcion invalida, elige un numero entre 1 y " + mochila.length);
+                            continue;
+                        }
+
+                        String suministroElegidox = mochila[suministroElegido];
+                        if (suministroElegidox.equals(j.debilidad)) {
+                            System.out.println("Has usado " + suministroElegidox + " disipando la niebla! Sales ileso.");
+                        } else if (suministroElegidox.equals(j.fortaleza)) {
+                            System.out.println("Has usado " + suministroElegidox + " pero la Bestia lo absorbe.");
+                            System.out.println("Contraataca con mas fuerza.");
+                            energia -= danoRecibido;
+                            danoRecibido = aleatoriox.nextInt(10, 20);
+                        } else {
+                            System.out.println("Has usado " + suministroElegidox + " pero no es efectivo contra la niebla.");
+                            energia -= danoRecibido;
+                            danoRecibido = aleatoriox.nextInt(10, 20);
+                        }
+                    }
+                }
+                break;
+
+            case 3:
+                nombreRefugio = "Bunker Skynet";
+                nombreEnemigo = "Unidad T-3000";
+                                               // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/6.jpg", 
+    300, 
+    300, 
+    "Has elegido el BUNKER SKYNET.\n Una Unidad T-3000 esta en modo de defensa!\n La maquina letal te detecta y abre fuego."
+);
+                System.out.println("Tu energia es de: " + energia + " puntos.");
+                System.out.println("Su rafaga plasmatica te ha costado " + danoRecibido + " puntos de energia.");
+                energia -= danoRecibido;
+                danoRecibido = aleatoriox.nextInt(10, 20);
+
+                System.out.println("La Unidad T-3000 tiene vulnerabilidades. Busca su punto debil.");
+                j.suministroRandom();
+                
+                for (int ronda = 1; ronda <= 3; ronda++) {
+                    int movimientoElegido = 0;
+                    System.out.println("Ronda " + ronda + ": escribe 1 para atacar o 2 para defenderte:");
+                    System.out.println("_____________________________________________________");
+                    System.out.println("Tu energia es de: " + energia + " puntos.");
+                    System.out.println("_____________________________________________________");
+                    movimientoElegido = tec.nextInt();
+
+                    while (movimientoElegido < 1 || movimientoElegido > 2) {
+                        System.out.println("Opcion invalida, escribe 1 para atacar o 2 para defenderte:");
+                        movimientoElegido = tec.nextInt();   
+                    }        
+
+                    if (movimientoElegido == 2) {   
+                        System.out.println("Te proteges tras una barricada metalica.");
+                        System.out.println("Pierdes " + danoRecibido + " puntos de energia.");
+                        energia -= danoRecibido;
+                        danoRecibido = aleatoriox.nextInt(10, 20);
+                    } else { 
+                        System.out.println("Ronda " + ronda + ": Elige un suministro de tu mochila para atacar:");
+                
+                        for (int i = 0; i < mochila.length; i++) {
+                            System.out.println((i+1) + "- " + mochila[i]);
+                        }
+                        int suministroElegido = tec.nextInt()-1;
+
+                        if (suministroElegido < 0 || suministroElegido >= mochila.length) {
+                            System.out.println("Opcion invalida, elige un numero entre 1 y " + mochila.length);
+                            continue;
+                        }
+
+                        String suministroElegidox = mochila[suministroElegido];
+                        if (suministroElegidox.equals(j.debilidad)) {
+                            System.out.println("Has usado " + suministroElegidox + " desactivando sus sistemas! Sales ileso.");
+                        } else if (suministroElegidox.equals(j.fortaleza)) {
+                            System.out.println("Has usado " + suministroElegidox + " pero la maquina tiene blindaje reforzado.");
+                            System.out.println("Contraataca con precision letal.");
+                            energia -= danoRecibido;
+                            danoRecibido = aleatoriox.nextInt(10, 20);
+                        } else {
+                            System.out.println("Has usado " + suministroElegidox + " pero no penetra el blindaje.");
+                            energia -= danoRecibido;
+                            danoRecibido = aleatoriox.nextInt(10, 20);
+                        }
+                    }
+                }
+                break;
+
+            default:
+                System.out.println("Opcion invalida, elige una opcion valida.");
+                break;
+        }
+
+        System.out.println("_____________________________________________________");
+
+        if (energia > 0) {
+            System.out.println("Derrotaste al " + nombreEnemigo + " y avanzas hacia el interior del refugio.");
+                                                           // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/7.jpg", 
+    300, 
+    300, 
+    "En el camino te encuentras con un Mago errante que habita estas tierras malditas.\n Dice: puedo restaurar tu energia si adivinas el numero que estoy pensando.\n Dice: es un numero entre 1 y 5. Elige sabiamente, superviviente."
+);
+            
+            Random aleatorio = new Random();
+            int numeroMago = aleatorio.nextInt(5) + 1;
+
+            System.out.print("Tu respuesta: ");
+            int numeroElegido = tec.nextInt();
+
+            if (numeroElegido == numeroMago) {
+                System.out.println("'Correcto! Tienes suerte.'");
+                System.out.println("El Mago restaura tu energia completamente.");
+                energia = 100;
+                System.out.println("Energia: " + energia);
+            } else {
+                System.out.println("Dice incorrecto. El numero era " + numeroMago + ". No puedo ayudarte.");
+                System.out.println("El Mago desaparece en una nube de humo.");
+            }
+            
+            System.out.println("El viaje continua agotandote. Pierdes " + danoRecibido + " puntos de energia.");
+            energia -= danoRecibido;
+            danoRecibido = aleatoriox.nextInt(10, 20);
+            
+            System.out.println("_____________________________________________________");
+        }
+
+        if (energia > 0) {
+                                                           // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/8.jpg", 
+    300, 
+    300, 
+    "Llegas al corazon del refugio.\n Pero una figura inmensa emerge de las profundidades.\n EL ARQUITECTO se materializa frente a ti.\n Te das cuenta que eso era la presencia que sentias al inicio.\n El lo ha disenado y creado todo\n Este mundo al fin es completamente mio ahora, susurra."
+);
+
+            j.suministroRandom();
+
+            for (int ronda = 1; ronda <= 3; ronda++) {
+                int movimientoElegido = 0;
+                System.out.println("Ronda " + ronda + " del combate final:");
+                System.out.println("Escribe 1 para atacar o 2 para defenderte:");
+                System.out.println("_____________________________________________________");
+                System.out.println("Tu energia es de: " + energia + " puntos.");
+                System.out.println("_____________________________________________________");
+                movimientoElegido = tec.nextInt();
+
+                while (movimientoElegido < 1 || movimientoElegido > 2) {
+                    System.out.println("Opcion invalida, escribe 1 para atacar o 2 para defenderte:");
+                    movimientoElegido = tec.nextInt();   
+                }        
+
+                if (movimientoElegido == 2) {
+                    System.out.println("Te defiendes del ataque devastador del Arquitecto.");
+                    System.out.println("Pierdes " + danoRecibido + "  puntos de energia.");
+                    energia -= danoRecibido;
+                    danoRecibido = aleatoriox.nextInt(10, 20);
+                } else { 
+                    System.out.println("Ronda " + ronda + ": Elige un suministro de tu mochila para atacar:");
+            
+                    for (int i = 0; i < mochila.length; i++) {
+                        System.out.println((i+1) + "- " + mochila[i]);
+                    }
+                    int suministroElegido = tec.nextInt();
+                    
+                    if (suministroElegido < 1 || suministroElegido > mochila.length) {
+                        System.out.println("Opcion invalida, elige un numero entre 1 y " + mochila.length);
+                        continue;
+                    }
+
+                    String suministroElegidox = mochila[suministroElegido-1];
+                    if (suministroElegidox.equals(j.debilidad)) {
+                        System.out.println("Has usado " + suministroElegidox + " contra su punto debil!");
+                        System.out.println("El Arquitecto se retuerce de dolor. Ataque critico!");
+                    } else if (suministroElegidox.equals(j.fortaleza)) {
+                        System.out.println("Has usado " + suministroElegidox + " pero el Arquitecto lo absorbe.");
+                        System.out.println("Contraataque devastador!");
+                        energia -= danoRecibido;
+                        danoRecibido = aleatoriox.nextInt(10, 20);
+                    } else {
+                        System.out.println("Has usado " + suministroElegidox + " pero apenas lo afecta.");
+                        energia -= danoRecibido;
+                        danoRecibido = aleatoriox.nextInt(10, 20);
+                    }
+
+                    if (energia <= 0) {
+                        break;
+                    }
+                }
+            }
+
+            if (energia > 0) {
+                                                               // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/8w.jpg", 
+    300, 
+    300, 
+    "Con un ultimo esfuerzo, el Arquitecto cae derrotado.\n Su cuerpo se desintegra en fragmentos de luz y oscuridad.\n El refugio queda en silencio.\n Has sobrevivido al fin del mundo!\n VICTORIA"
+);
+
+                System.out.println("Energia final: " + energia + " puntos");
+            } else {
+                                                                               // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/8l.jpg", 
+    300, 
+    300, 
+    "El Arquitecto te supera en el combate final.\n Caes derrotado mientras el mundo se oscurece a tu alrededor.\n GAME OVER\n Lo siento, no lograste sobrevivir."
+);
+            }
+        } else {
+                                                                                           // Llamar al método para obtener una imagen redimensionada
+        Juego.mostrarMensajeConIcono(
+    "/img/8l2.jpg", 
+    300, 
+    300, 
+    "GAME OVER\n Lo siento, no lograste sobrevivir.\n GAME OVER\n Mejor suerte la proxima vez."
+);
+
+        }
+
+
+    }
+}
